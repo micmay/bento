@@ -65,11 +65,28 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
 
+      echo "Install software"
+      apt-get update
+      apt-get upgrade -y
+      apt-get install -y curl kdiff3-qt apt-file apt-transport-https
+
+
+      echo "install vscode"
+      curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+      mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+      sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+      apt-get update
+      apt-get install -y code
+
       echo "Set German keyboard layout"
       sed -ie '/^XKBLAYOUT=/s/".*"/"de"/' /etc/default/keyboard
       udevadm trigger --subsystem-match=input --action=change
       dpkg-reconfigure -f noninteractive keyboard-configuration
       setupcon --force
+
+      apt-get remove -y --purge evolution libreoffice-* gnome-maps gnome-games rhythmbox
+      apt-get autoremove -y
+      apt-file update
       reboot
    SHELL
 end
