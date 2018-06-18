@@ -53,7 +53,7 @@
           "modifyvm",
           "{{.Name}}",
           "--vram",
-          "128"
+          "{{ user `vram` }}"
         ]
       ],
       "virtualbox_version_file": ".vbox_version",
@@ -241,6 +241,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "preseed_path": "debian-8/preseed.cfg",
     "template": "debian-9.4-amd64",
-    "version": "TIMESTAMP"
+    "version": "TIMESTAMP",
+    "vram": "128"
   }
 }
