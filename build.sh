@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pushd debian
-packer build -only=virtualbox-iso debian-9.4-amd64.json -var 'name=fwdev'
+packer build -only=virtualbox-iso -var 'name=fwdev' debian-9.4-amd64.json 
 popd
 
 pushd builds
